@@ -1,0 +1,17 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-UnrealOpenMesh-8405-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\Engine\SharedPCH.Engine.NonOptimized.RTTI.h.obj"
+"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\UnrealOpenMesh\Module.UnrealOpenMesh.cpp.obj"
+"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\UnrealOpenMesh\UnrealOpenMeshCreation.cpp.obj"
+"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\UnrealOpenMesh\UnrealOpenMeshLibrary.cpp.obj"
+"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\UnrealOpenMesh\UnrealOpenMeshUtility.cpp.obj"
+"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\UnrealOpenMesh\Module.UnrealOpenMesh.gen.cpp.obj"
+"C:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\UnrealOpenMesh\PCLaunch.rc.res"
+"C:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\ModuleVersionResource.rc.inl.res"
+/OUT:"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\UE4Editor-UnrealOpenMesh-8405-Win64-DebugGame.lib"
