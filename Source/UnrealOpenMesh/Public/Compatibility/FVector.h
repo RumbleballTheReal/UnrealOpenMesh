@@ -32,23 +32,38 @@
 
 namespace OpenMesh
 {
-	struct FVector : public Vec3f
-	{
-		// Construct from Initialization-List
-		template <typename ...Ts> 
-		FVector(Ts ... vs) : Vec3f(vs...)
-		{
+struct FVector : public Vec3f
+{
+    // Construct from Initialization-List
+    template <typename ...Ts>
+    FVector(Ts ... vs) : Vec3f(vs...)
+    {
 
-		}
+    }
 
-		// Implicit conversion to Unreals FVector
-		operator ::FVector() const 
-		{
-			return ::FVector((*this)[0], (*this)[1], (*this)[2]);
-		}
-	/*	operator ::FVector&&()
-		{
-			return (::FVector&&)MoveTemp(*this);
-		}*/
-	};
+    FVector(const ::FVector& vec)
+    {
+        (*this) = vec;
+    }
+
+    // Implicit conversion to Unreals FVector
+    operator ::FVector() const
+    {
+        return ::FVector((*this)[0], (*this)[1], (*this)[2]);
+    }
+    /*	operator ::FVector&&()
+    	{
+    		return (::FVector&&)MoveTemp(*this);
+    	}*/
+
+    OpenMesh::FVector operator=(const ::FVector& vec)
+    {
+        (*this)[0] = vec.X;
+        (*this)[1] = vec.Y;
+        (*this)[2] = vec.Z;
+        return *this;
+    }
+};
+
+
 }

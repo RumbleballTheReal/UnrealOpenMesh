@@ -18,5 +18,5 @@ class UNREALOPENMESH_API UUnrealOpenMeshLibrary : public UBlueprintFunctionLibra
      *	@param bFlatShaded		returns the cube in a flat shaded version
      */
     UFUNCTION(BlueprintCallable, Category = "OpenMesh")
-    static void GetCube(const bool bFlatShaded, TArray<FVector>& vertices, TArray<int32>& triangles, TArray<FVector>& normals);
+    static void GetCube(const float size, const bool bFlatShaded, TArray<FVector>& vertices, TArray<int32>& triangles, TArray<FVector>& normals);
 };

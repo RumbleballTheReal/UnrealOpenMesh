@@ -1,0 +1,8 @@
+{
+	"BuildId": "3944462",
+	"Modules": 
+	{
+		"OpenMesh": "UE4Editor-OpenMesh.dll",
+		"UnrealOpenMesh": "UE4Editor-UnrealOpenMesh.dll"
+	}
+}

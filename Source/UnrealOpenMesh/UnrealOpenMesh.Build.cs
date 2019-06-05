@@ -13,9 +13,9 @@ namespace UnrealBuildTool.Rules
             get { return ModuleDirectory; }
         }
 
-        private string ThirdPartyPath
+        private string OpenMeshPath
         {
-            get { return Path.GetFullPath(Path.Combine(ModulePath, "../ThirdParty/")); }
+            get { return Path.GetFullPath(Path.Combine(ModulePath, "../OpenMesh/")); }
         }
 
 
@@ -26,17 +26,18 @@ namespace UnrealBuildTool.Rules
             // Needed for Open Mesh Library
             {
                 bUseRTTI = true; // Enable RuntimeTypeInformation
-                PublicDefinitions.Add("_USE_MATH_DEFINES");
             }
 
             //Log.TraceInformation("ModulePath: " + ModulePath);
             //Log.TraceInformation("ThirdPartyPath: " + ThirdPartyPath);
             PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
+            string OpenMeshVersionFolder = "Version8_0";
+
             PublicIncludePaths.AddRange(
                 new string[] {
                 "UnrealOpenMesh/Public",
-                Path.Combine(ThirdPartyPath, "OpenMesh/Version8_1/include")
+                Path.Combine(OpenMeshPath, OpenMeshVersionFolder, "Public")
                     // ... add public include paths required here ...
                 }
             );
@@ -60,6 +61,7 @@ namespace UnrealBuildTool.Rules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "OpenMesh",
                // "RHI",
                // "RenderCore",
                     // ... add other public dependencies that you statically link with here ...
@@ -85,10 +87,15 @@ namespace UnrealBuildTool.Rules
                 }
                 );
 
+                /*
             if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
             {
                 string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32";
-                PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, "OpenMesh/Version8_1/lib", PlatformString, "OpenMeshCore.lib"));
+
+                bool bDebug = false;
+                //bool bDebug = Target.Configuration == UnrealTargetConfiguration.DebugGame || Target.Configuration == UnrealTargetConfiguration.Debug;
+                string OpenMeshLibName = bDebug ? "OpenMeshCored.lib" : "OpenMeshCore.lib"; // debug or shipping
+                PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, "OpenMesh", OpenMeshVersionFolder , "lib", PlatformString, OpenMeshLibName));
 
                 //// Does only declare the file as dependency and seems important for packaging. Though it does not load the file.
                 //RuntimeDependencies.Add(Path.Combine(ThirdPartyPath, "OpenMesh\Version8_0\lib", PlatformString, "assimp -vc140-mt.dll"));
@@ -101,6 +108,7 @@ namespace UnrealBuildTool.Rules
             //    string PlatformString = "Mac";
             //    PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, "assimp/lib", PlatformString, "libassimp.4.1.0.dylib"));
             //}
+            //}*/
         }
     }
 }

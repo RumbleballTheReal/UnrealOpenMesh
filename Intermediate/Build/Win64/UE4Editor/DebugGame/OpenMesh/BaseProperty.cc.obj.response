@@ -1,0 +1,74 @@
+/Zc:inline
+/nologo
+/Oi
+/c
+/Gy
+/Zm850
+/wd4819
+/D_CRT_STDIO_LEGACY_WIDE_SPECIFIERS=1
+/D_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1
+/D_WINDLL
+/source-charset:utf-8 /execution-charset:utf-8
+/Od
+/Ob2
+/errorReport:prompt
+/EHsc
+/Z7
+/MD
+/bigobj
+/fp:fast
+/Zp8
+/wd4463
+/wd4838
+/w44668
+/I "C:\Program Files\Epic Games\UE_4.19\Engine\Source"
+/I C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Source\OpenMesh\Version8_0\Private
+/I C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Source\OpenMesh\Version8_0\Public
+/I C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Source
+/I C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Source\OpenMesh
+/DIS_PROGRAM=0
+/DUE_EDITOR=1
+/DENABLE_PGO_PROFILE=0
+/DWITH_DEV_AUTOMATION_TESTS=1
+/DWITH_PERF_AUTOMATION_TESTS=1
+/DUNICODE
+/D_UNICODE
+/D__UNREAL__
+/DIS_MONOLITHIC=0
+/DWITH_ENGINE=1
+/DWITH_UNREAL_DEVELOPER_TOOLS=1
+/DWITH_COREUOBJECT=1
+/DUSE_STATS_WITHOUT_ENGINE=0
+/DWITH_PLUGIN_SUPPORT=0
+/DWITH_PERFCOUNTERS=1
+/DUSE_LOGGING_IN_SHIPPING=0
+/DWITH_LOGGING_TO_MEMORY=0
+/DUSE_CACHE_FREED_OS_ALLOCS=1
+/DUSE_CHECKS_IN_SHIPPING=0
+/DUE_BUILD_MINIMAL=0
+/DWITH_EDITOR=1
+/DWITH_SERVER_CODE=1
+/DWITH_CEF3=1
+/DWITH_XGE_CONTROLLER=1
+/DUBT_COMPILED_PLATFORM=Win64
+/DUBT_COMPILED_TARGET=Editor
+/DWIN32=1
+/D_WIN32_WINNT=0x0601
+/DWINVER=0x0601
+/DPLATFORM_WINDOWS=1
+/DDEPTH_32_BIT_CONVERSION=0
+/DNDEBUG=1
+/DUE_BUILD_DEVELOPMENT=1
+/DORIGINAL_FILE_NAME=\"UE4Editor-OpenMesh-Win64-DebugGame.dll\"
+/DUE_IS_ENGINE_MODULE=0
+/DUE_BUILD_DEVELOPMENT_WITH_DEBUGGAME=1
+/DUE_PROJECT_NAME=ThePaintProject
+/D_USE_MATH_DEFINES
+/DDEPRECATED_FORGAME=DEPRECATED
+/D_USE_MATH_DEFINES
+/DOPENMESH_API=DLLEXPORT
+"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Source\OpenMesh\Version8_0\Private\OpenMesh\Core\Utils\BaseProperty.cc"
+/Fo"C:\Users\vr3\Documents\Guenni\PerfWork\GPaintProject419\ThePaintProject\Plugins\UnrealOpenMesh\Intermediate\Build\Win64\UE4Editor\DebugGame\OpenMesh\BaseProperty.cc.obj"
+/TP
+/GR
+/W4

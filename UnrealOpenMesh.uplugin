@@ -20,7 +20,7 @@
       "LoadingPhase": "Default"
     },
     {
-      "Name": "ThirdParty",
+      "Name": "OpenMesh",
       "Type": "Runtime",
       "LoadingPhase": "Default"
     }

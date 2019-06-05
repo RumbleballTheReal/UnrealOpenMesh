@@ -2,13 +2,13 @@
 
 #include "UnrealOpenMeshLibrary.h"
 #include "Compatibility/Compatibility.h"
-#include "UnrealOpenMeshCreation.h"
-#include "UnrealOpenMeshUtility.h"
+#include "UOMCreation.h"
+#include "UOMUtility.h"
 
 #include "OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh"
 
 
-void UUnrealOpenMeshLibrary::GetCube(const bool bFlatShaded, TArray<FVector>& vertices, TArray<int32>& triangles, TArray<FVector>& normals)
+void UUnrealOpenMeshLibrary::GetCube(const float size, const bool bFlatShaded, TArray<FVector>& vertices, TArray<int32>& triangles, TArray<FVector>& normals)
 {
 	vertices.Empty();
 	normals.Empty();
@@ -30,7 +30,7 @@ void UUnrealOpenMeshLibrary::GetCube(const bool bFlatShaded, TArray<FVector>& ve
 	typedef OpenMesh::TriMesh_ArrayKernelT<CustomTraits> MyMesh;
 	MyMesh mesh;
 
-	FUnrealOpenMeshCreation::CreateCube(mesh);
+	FUnrealOpenMeshCreation::CreateCube(mesh, size);
 	if (bFlatShaded)
 	{
 		MyMesh meshFlatShaded;
