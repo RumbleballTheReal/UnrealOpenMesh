@@ -19,8 +19,8 @@ public:
 	 */
 	inline static float ComparePlanePoint(const OpenMesh::FVector& planeNormal, const OpenMesh::FVector& planeLocation, const OpenMesh::FVector& point)
 	{
-		const OpenMesh::FVector pointDirectionFromPlane = point - planeLocation;
-		return static_cast<float>(dot(planeNormal,pointDirectionFromPlane)); // dot product
+		const OpenMesh::FVector directionPlanePoint = point - planeLocation;
+		return static_cast<float>(dot(planeNormal,directionPlanePoint)); // dot product
 	}
 	
 };

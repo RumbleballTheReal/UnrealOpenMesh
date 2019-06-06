@@ -63,23 +63,33 @@ static bool FUnrealOpenMeshAlgorithm::IsPointInsideMesh_Convex(const OpenMesh::T
 template <typename Kernel>
 bool FUnrealOpenMeshAlgorithm::IsVertexNeighborhoodConvex(const OpenMesh::TriMeshT<Kernel>& mesh, const typename Kernel::VertexHandle vHandle)
 {
-    // A vertex and its neighborhood is convex if all vertices in a 1-ring neighborhood of the specified vertex are on or below a plane
-    // defined by one of the faces that are incident to the specified vertex.
+    // A vertex and its neighborhood is convex if all vertices in a 1-ring neighborhood of the specified vertex are on or below all planes
+    // defined by the faces incident to the vertex.
 
     if (!vHandle.is_valid()) return false;
-    Kernel::FaceHandle fHandle = *mesh.cvf_iter(vHandle);
-    if (!fHandle.is_valid())
-    {
-        ensure(0);
-        return false;
-    }
 
-    Kernel::Normal faceNormal = mesh.calc_face_normal(fHandle);
-    Kernel::Point faceVertex = mesh.point(vHandle);
-
-    for (Kernel::ConstVertexVertexIter vertexVertexIter = mesh.cvv_iter(vHandle); vertexVertexIter.is_valid(); ++vertexVertexIter)
+    for (Kernel::ConstVertexFaceIter vertexFaceIter = mesh.cvf_iter(vHandle); vertexFaceIter.is_valid(); ++vertexFaceIter)
     {
-        if (FUnrealOpenMeshMath::ComparePlanePoint(faceNormal, faceVertex, mesh.point(*vertexVertexIter)) > 0) return false;
+        Kernel::FaceHandle fHandle = *vertexFaceIter;
+        if (!fHandle.is_valid())
+        {
+            ensure(0);
+			continue;
+        }
+
+        Kernel::Normal faceNormal = mesh.calc_face_normal(fHandle);
+        Kernel::Point faceVertex = mesh.point(vHandle);
+
+        for (Kernel::ConstVertexVertexIter vertexVertexIter = mesh.cvv_iter(vHandle); vertexVertexIter.is_valid(); ++vertexVertexIter)
+        {
+            float result = FUnrealOpenMeshMath::ComparePlanePoint(faceNormal, faceVertex, mesh.point(*vertexVertexIter));
+            if(FMath::IsNearlyZero(result, 0.000001f)) continue;
+			if (result > 0)
+			{
+				UKismetSystemLibrary::PrintString(GWorld, FString::Printf(TEXT("result: %f"), result), true, true, FLinearColor::Red, 5.f);
+				return false;
+			}
+        }
     }
 
     return true;
@@ -116,8 +126,8 @@ typename Kernel::VertexHandle FUnrealOpenMeshAlgorithm::GetVertexClosestToPoint(
 template <typename Kernel>
 typename Kernel::FaceHandle FUnrealOpenMeshAlgorithm::GetEvidentFaceAtVertexByPoint(const OpenMesh::PolyMeshT<Kernel>& mesh, const typename Kernel::VertexHandle vHandle, const typename Kernel::Point& point)
 {
-	// To get the most evident face, we take the face normal and dot product it with the directions from the faces vertices to the point.
-	// The face with the highest dot product sum wins.
+    // To get the most evident face, we take the face normal and dot product it with the directions from the faces vertices to the point.
+    // The face with the highest dot product sum wins.
 
     if (!vHandle.is_valid()) return Kernel::FaceHandle();
 
@@ -125,25 +135,25 @@ typename Kernel::FaceHandle FUnrealOpenMeshAlgorithm::GetEvidentFaceAtVertexByPo
     Kernel::Normal directionPointVertex = (vertexLocation - point).normalize();
 
     float highestValue = SMALL_NUMBER;
-	Kernel::FaceHandle incidentFaceHandle;
+    Kernel::FaceHandle incidentFaceHandle;
 
     // Loop over all faces that are incident to the vertex
     for (Kernel::ConstVertexFaceIter vertexFaceIter = mesh.cvf_iter(vHandle); vertexFaceIter.is_valid(); ++vertexFaceIter)
     {
         float dotSum = 0.f;
-		Kernel::Normal faceNormal = mesh.calc_face_normal(*vertexFaceIter);
+        Kernel::Normal faceNormal = mesh.calc_face_normal(*vertexFaceIter);
         // Loop over all vertices of the face
         for (Kernel::ConstFaceVertexIter faceVertexIter = mesh.cfv_iter(*vertexFaceIter); faceVertexIter.is_valid(); ++faceVertexIter)
         {
-			Kernel::Normal direction = (point - mesh.point(*faceVertexIter)).normalize();
-			dotSum += dot(faceNormal, direction);
+            Kernel::Normal direction = (point - mesh.point(*faceVertexIter)).normalize();
+            dotSum += dot(faceNormal, direction);
         }
 
-		if (dotSum > highestValue)
-		{
-			highestValue = dotSum;
-			incidentFaceHandle = *vertexFaceIter;
-		}
+        if (dotSum > highestValue)
+        {
+            highestValue = dotSum;
+            incidentFaceHandle = *vertexFaceIter;
+        }
     }
 
     return incidentFaceHandle;
