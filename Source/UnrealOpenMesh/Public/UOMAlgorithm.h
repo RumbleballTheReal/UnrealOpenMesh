@@ -65,10 +65,16 @@ bool FUnrealOpenMeshAlgorithm::IsVertexNeighborhoodConvex(const OpenMesh::TriMes
 {
     // A vertex and its neighborhood is convex if all vertices in a 1-ring neighborhood of the specified vertex are on or below a plane
     // defined by one of the faces that are incident to the specified vertex.
-    
-	if (!vHandle.is_valid()) return false;
 
-    Kernel::Normal faceNormal = mesh.calc_face_normal(*mesh.cvf_iter(vHandle));
+    if (!vHandle.is_valid()) return false;
+    Kernel::FaceHandle fHandle = *mesh.cvf_iter(vHandle);
+    if (!fHandle.is_valid())
+    {
+        ensure(0);
+        return false;
+    }
+
+    Kernel::Normal faceNormal = mesh.calc_face_normal(fHandle);
     Kernel::Point faceVertex = mesh.point(vHandle);
 
     for (Kernel::ConstVertexVertexIter vertexVertexIter = mesh.cvv_iter(vHandle); vertexVertexIter.is_valid(); ++vertexVertexIter)
@@ -93,69 +99,52 @@ bool FUnrealOpenMeshAlgorithm::IsMeshConvex(const OpenMesh::TriMeshT<Kernel>& me
 template <typename Kernel>
 typename Kernel::VertexHandle FUnrealOpenMeshAlgorithm::GetVertexClosestToPoint(const OpenMesh::PolyMeshT<Kernel>& mesh, const typename Kernel::Point& point)
 {
-	Kernel::VertexHandle vHandle;
-	float lenLowestValue = BIG_NUMBER;
-	for (Kernel::ConstVertexIter vertexIter = mesh.vertices_begin(); vertexIter != mesh.vertices_end(); ++vertexIter)
-	{
-		float lenSqr = OpenMesh::sqrnorm(point - mesh.point(*vertexIter)); // norm == length (!=normalize)
-		if (lenSqr < lenLowestValue)
-		{
-			vHandle = *vertexIter;
-			lenLowestValue = lenSqr;
-		}
-	}
-	return vHandle;
+    Kernel::VertexHandle vHandle;
+    float lenLowestValue = BIG_NUMBER;
+    for (Kernel::ConstVertexIter vertexIter = mesh.vertices_begin(); vertexIter != mesh.vertices_end(); ++vertexIter)
+    {
+        float lenSqr = OpenMesh::sqrnorm(point - mesh.point(*vertexIter)); // norm == length (!=normalize)
+        if (lenSqr < lenLowestValue)
+        {
+            vHandle = *vertexIter;
+            lenLowestValue = lenSqr;
+        }
+    }
+    return vHandle;
 }
 
 template <typename Kernel>
 typename Kernel::FaceHandle FUnrealOpenMeshAlgorithm::GetEvidentFaceAtVertexByPoint(const OpenMesh::PolyMeshT<Kernel>& mesh, const typename Kernel::VertexHandle vHandle, const typename Kernel::Point& point)
 {
-    // The most evident face is evaluated by calculating the dot product of the face and
-    // vertex incident edges and the direction of the vertex to the point.
-    //
-    //		# _
-    //          - _
-    //              - _ Halfedge2 (outgoing) (points to Face)
-    // 	                - _
-    //          Point *- _  - _
-    //                     --  # vertex     ( clock wise edge iteration)
-    //		Face           _ -
-    // 	               _ / Halfedge1 (outgoing)
-    //             _ /
-    //            #
-    //
+	// To get the most evident face, we take the face normal and dot product it with the directions from the faces vertices to the point.
+	// The face with the highest dot product sum wins.
 
-	if (!vHandle.is_valid()) return Kernel::FaceHandle();
+    if (!vHandle.is_valid()) return Kernel::FaceHandle();
 
     Kernel::Point vertexLocation = mesh.point(vHandle);
-    Kernel::Normal directionVertexPoint = (point - vertexLocation).normalize();
-    Kernel::ConstVertexOHalfedgeCWIter vertexOutgoingHalfedgeCWIter = mesh.cvoh_cwiter(vHandle); // clockwise
-    Kernel::HalfedgeHandle heHandle;
+    Kernel::Normal directionPointVertex = (vertexLocation - point).normalize();
 
-    heHandle = *vertexOutgoingHalfedgeCWIter;
-    Kernel::Normal directionEdge1 = (mesh.point(mesh.to_vertex_handle(heHandle)) - vertexLocation).normalize();
-	
-	++vertexOutgoingHalfedgeCWIter; // Next halve edge
-    Kernel::HalfedgeHandle heHandleHighestValue = *vertexOutgoingHalfedgeCWIter; // Init with second edge of first face
     float highestValue = SMALL_NUMBER;
-    for (; vertexOutgoingHalfedgeCWIter.is_valid(); ++vertexOutgoingHalfedgeCWIter)
+	Kernel::FaceHandle incidentFaceHandle;
+
+    // Loop over all faces that are incident to the vertex
+    for (Kernel::ConstVertexFaceIter vertexFaceIter = mesh.cvf_iter(vHandle); vertexFaceIter.is_valid(); ++vertexFaceIter)
     {
-        heHandle = *vertexOutgoingHalfedgeCWIter;
-        Kernel::Normal directionEdge2 = (mesh.point(mesh.to_vertex_handle(heHandle)) - vertexLocation).normalize();
-
-		float value = 0.f;
-        value += dot(directionVertexPoint, directionEdge1);
-        value += dot(directionVertexPoint, directionEdge2);
-
-        if (value > highestValue)
+        float dotSum = 0.f;
+		Kernel::Normal faceNormal = mesh.calc_face_normal(*vertexFaceIter);
+        // Loop over all vertices of the face
+        for (Kernel::ConstFaceVertexIter faceVertexIter = mesh.cfv_iter(*vertexFaceIter); faceVertexIter.is_valid(); ++faceVertexIter)
         {
-            highestValue = value;
-            // To return the face, get the face from the second halfedge handle (assumes clock wise iteration)
-            heHandleHighestValue = heHandle;
+			Kernel::Normal direction = (point - mesh.point(*faceVertexIter)).normalize();
+			dotSum += dot(faceNormal, direction);
         }
 
-        directionEdge1 = directionEdge2;
+		if (dotSum > highestValue)
+		{
+			highestValue = dotSum;
+			incidentFaceHandle = *vertexFaceIter;
+		}
     }
 
-    return mesh.face_handle(heHandleHighestValue);
+    return incidentFaceHandle;
 }
