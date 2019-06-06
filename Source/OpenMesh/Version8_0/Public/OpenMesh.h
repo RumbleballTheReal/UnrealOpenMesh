@@ -14,3 +14,5 @@ public:
 
 private:
 };
+
+#define OPENMESH_UNREALENGINE

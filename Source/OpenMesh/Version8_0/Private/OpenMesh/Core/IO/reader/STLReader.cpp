@@ -479,9 +479,14 @@ check_stl_type(const std::string& _filename) const
    //check the file size to verify it.
 
    //open the file
+#ifdef OPENMESH_UNREALENGINE
+#pragma warning(disable: 4996)
+#endif
    FILE* in = fopen(_filename.c_str(), "rb");
+#ifdef OPENMESH_UNREALENGINE
+#pragma warning(default: 4996)
+#endif
    if (!in) return NONE;
-
    // determine endian mode
    union { unsigned int i; unsigned char c[4]; } endian_test;
    endian_test.i = 1;

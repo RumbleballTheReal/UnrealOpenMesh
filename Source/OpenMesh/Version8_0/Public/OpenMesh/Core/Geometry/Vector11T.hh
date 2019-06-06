@@ -58,6 +58,15 @@
 #include <OpenMesh/Core/System/config.h>
 
 
+// UnrealEngine does not like exceptions. bEnableExceptions=true in build.cs did not do it.
+#ifdef OPENMESH_UNREALENGINE
+#define NOEXCEPT_ARGS(...) //nothing
+#define NOEXCEPT //nothing
+#else
+#define NOEXCEPT_ARGS(...) noexcept(__VA_ARGS__)
+#define NOEXCEPT noexcept
+#endif
+
 /*
  * Helpers for VectorT
  */
@@ -630,7 +639,7 @@ class VectorT {
 
         /// swap with another vector
         void swap(VectorT& _other)
-        noexcept(noexcept(std::swap(values_, _other.values_))) {
+        NOEXCEPT_ARGS(NOEXCEPT_ARGS(std::swap(values_, _other.values_))) {
             std::swap(values_, _other.values_);
         }
 
@@ -644,21 +653,21 @@ class VectorT {
         using reverse_iterator       = typename container::reverse_iterator;
         using const_reverse_iterator = typename container::const_reverse_iterator;
 
-        iterator               begin()         noexcept { return values_.begin();   }
-        const_iterator         begin()   const noexcept { return values_.cbegin();  }
-        const_iterator         cbegin()  const noexcept { return values_.cbegin();  }
+        iterator               begin()         NOEXCEPT { return values_.begin();   }
+        const_iterator         begin()   const NOEXCEPT { return values_.cbegin();  }
+        const_iterator         cbegin()  const NOEXCEPT { return values_.cbegin();  }
 
-        iterator               end()           noexcept { return values_.end();     }
-        const_iterator         end()     const noexcept { return values_.cend();    }
-        const_iterator         cend()    const noexcept { return values_.cend();    }
+        iterator               end()           NOEXCEPT { return values_.end();     }
+        const_iterator         end()     const NOEXCEPT { return values_.cend();    }
+        const_iterator         cend()    const NOEXCEPT { return values_.cend();    }
 
-        reverse_iterator       rbegin()        noexcept { return values_.rbegin();  }
-        const_reverse_iterator rbegin()  const noexcept { return values_.crbegin(); }
-        const_reverse_iterator crbegin() const noexcept { return values_.crbegin(); }
+        reverse_iterator       rbegin()        NOEXCEPT { return values_.rbegin();  }
+        const_reverse_iterator rbegin()  const NOEXCEPT { return values_.crbegin(); }
+        const_reverse_iterator crbegin() const NOEXCEPT { return values_.crbegin(); }
 
-        reverse_iterator       rend()          noexcept { return values_.rend();    }
-        const_reverse_iterator rend()    const noexcept { return values_.crend();   }
-        const_reverse_iterator crend()   const noexcept { return values_.crend();   }
+        reverse_iterator       rend()          NOEXCEPT { return values_.rend();    }
+        const_reverse_iterator rend()    const NOEXCEPT { return values_.crend();   }
+        const_reverse_iterator crend()   const NOEXCEPT { return values_.crend();   }
 
         //@}
 };
@@ -714,7 +723,7 @@ cross(const VectorT<LScalar, DIM>& _v1, const VectorT<RScalar, DIM>& _v2) ->
 /// non-member swap
 template<typename Scalar, int DIM>
 void swap(VectorT<Scalar, DIM>& _v1, VectorT<Scalar, DIM>& _v2)
-noexcept(noexcept(_v1.swap(_v2))) {
+NOEXCEPT_ARGS(NOEXCEPT_ARGS(_v1.swap(_v2))) {
     _v1.swap(_v2);
 }
 

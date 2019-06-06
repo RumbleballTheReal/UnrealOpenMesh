@@ -143,7 +143,13 @@ write_stla(const std::string& _filename, BaseExporter& _be, Options /* _opt */) 
 
 
   // open file
+#ifdef OPENMESH_UNREALENGINE
+#pragma warning(disable: 4996)
+#endif
   FILE* out = fopen(_filename.c_str(), "w");
+#ifdef OPENMESH_UNREALENGINE
+#pragma warning(default: 4996)
+#endif
   if (!out)
   {
     omerr() << "[STLWriter] : cannot open file " << _filename << std::endl;
@@ -260,7 +266,13 @@ write_stlb(const std::string& _filename, BaseExporter& _be, Options /* _opt */) 
 
 
   // open file
+#ifdef OPENMESH_UNREALENGINE
+#pragma warning(disable: 4996)
+#endif
   FILE* out = fopen(_filename.c_str(), "wb");
+#ifdef OPENMESH_UNREALENGINE
+#pragma warning(default: 4996)
+#endif
   if (!out)
   {
     omerr() << "[STLWriter] : cannot open file " << _filename << std::endl;

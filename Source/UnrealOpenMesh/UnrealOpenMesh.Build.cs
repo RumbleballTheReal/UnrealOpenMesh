@@ -60,6 +60,7 @@ namespace UnrealBuildTool.Rules
                 {
                 "Core",
                 "CoreUObject",
+                "Projects",
                 "Engine",
                 "OpenMesh",
                // "RHI",

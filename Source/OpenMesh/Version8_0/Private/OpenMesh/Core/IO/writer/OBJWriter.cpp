@@ -273,20 +273,20 @@ write(std::ostream& _out, BaseExporter& _be, Options _opt, std::streamsize _prec
     std::vector<Vec2f> texCoords;
     //add all texCoords to map
     unsigned int num = _be.get_face_texcoords(texCoords);
-    for(unsigned int i = 0; i < num ; ++i)
+    for(unsigned int i_loop = 0; i_loop < num ; ++i_loop)
     {
-      texMap[texCoords[i]] = i;
+      texMap[texCoords[i_loop]] = i_loop;
     }
   }
 
   //collect Texture coordinates from vertices
   if(_opt.check_func(Options::VertexTexCoord))
   {
-    for (size_t i=0, nV=_be.n_vertices(); i<nV; ++i)
+    for (size_t i_loop=0, nV_loop=_be.n_vertices(); i_loop<nV_loop; ++i_loop)
     {
-      vh = VertexHandle(static_cast<int>(i));
+      vh = VertexHandle(static_cast<int>(i_loop));
       t  = _be.texcoord(vh);
-      texMap[t] = static_cast<int>(i);
+      texMap[t] = static_cast<int>(i_loop);
     }
   }
 

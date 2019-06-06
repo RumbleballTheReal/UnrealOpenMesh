@@ -12,10 +12,12 @@ namespace UnrealBuildTool.Rules
         {
             //Needed for Open Mesh Library
             {
+                bEnableExceptions = true;
                 bUseRTTI = true; // Enable RuntimeTypeInformation
                 PublicDefinitions.Add("_USE_MATH_DEFINES");
-                PrivateDefinitions.Add("_CRT_SECURE_NO_WARNINGS");
+                PrivateDefinitions.Add("_CRT_SECURE_NO_WARNINGS"); // should disable warning warning C4996, but does not work
             }
+
             PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
             string VersionFolder = "Version8_0";

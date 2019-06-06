@@ -39,14 +39,15 @@
  *                                                                           *
  * ========================================================================= */
 
+#include "OpenMesh.h"
+
 // Disable the warnings about needs to have DLL interface as we have tons of vector templates
 #ifdef _MSC_VER
   #pragma warning( disable: 4251 )
 #endif
 
-// remaps the export macro to be useable with unreal
-#define UNREALENGINE 
-#ifdef UNREALENGINE
+// Remaps the export macro to be usable with UnrealEngine
+#ifdef OPENMESH_UNREALENGINE
 #define OPENMESHDLLEXPORT OPENMESH_API 
 #endif
 
