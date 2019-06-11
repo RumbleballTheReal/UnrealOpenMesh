@@ -14,9 +14,8 @@ public:
     FUnrealOpenMeshCreation();
     ~FUnrealOpenMeshCreation();
 
-
     /**
-     *	Test function that uses OpenMesh to create a cube.
+     *	Test function that uses OpenMesh to create a cube (smooth shading).
      *	It is also meant to be a reference and lookup of how things can be accomplished.
      */
     template <typename Kernel>

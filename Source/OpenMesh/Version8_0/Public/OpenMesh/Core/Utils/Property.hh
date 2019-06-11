@@ -124,7 +124,7 @@ public:
   { check_and_set_persistent<T>( _yn ); }
 
   virtual size_t       n_elements()   const { return data_.size(); }
-  virtual size_t       element_size() const { return IO::size_of<T>(); }
+  virtual size_t       element_size() const { return sizeof(value_type); }
 
 #ifndef DOXY_IGNORE_THIS
   struct plus {
