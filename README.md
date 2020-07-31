@@ -2,7 +2,9 @@
 
 OpenMesh Plugin for Unreal Engine that includes a custom version of OpenMesh (https://github.com/RumbleballTheReal/OpenMesh).
 
-The Plugin in currently meant for C++ use only, if you want to extent on it, feel free to do so.
+The original OpenMesh can be found here: https://www.graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh
+
+The Plugin is currently meant for C++ use only, if you want to extent on it, feel free to do so.
 
 ## OpenMesh module
 Contains the code of OpenMesh
